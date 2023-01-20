@@ -6,7 +6,7 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 09:28:21 by rrebois           #+#    #+#             */
-/*   Updated: 2023/01/18 10:19:39 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/01/20 12:36:04 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,20 @@ int	close_game(t_var *v)
 	mlx_destroy_image(v->mlx, v->img.img);
 	mlx_destroy_window(v->mlx, v->win);
 	exit (1);
+}
+
+void	close_game_free(t_game *game)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < game->height)
+	{
+		free(game->map[i]);
+		game->map[i] = NULL;
+		i++;
+	}
+	free(game->map);
+	game->map = NULL;
+	free(game->mappy);
 }

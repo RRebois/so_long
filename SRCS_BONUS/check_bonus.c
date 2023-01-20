@@ -6,7 +6,7 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 10:17:03 by rrebois           #+#    #+#             */
-/*   Updated: 2023/01/18 15:02:56 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/01/20 16:33:12 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,32 @@ surrounded.\n"), 1);
 	return (0);
 }
 
+int	check_invalid_char(t_game *game)
+{
+	size_t	i;
+	size_t	j;
+
+	i = 0;
+	while (game->map[i] != '\0')
+	{
+		j = 0;
+		while (game->map[i][j] != '\0')
+		{
+			if (game->map[i][j] == 'C' || game->map[i][j] == '1' \
+			|| game->map[i][j] == '0' || game->map[i][j] == 'P' \
+			|| game->map[i][j] == 'E' || game->map[i][j] == 'V')
+				j++;
+			else
+			{
+				ft_printf("Error\nInvalid character: %c.\n", game->map[i][j]);
+				return (1);
+			}
+		}
+		i++;
+	}
+	return (0);
+}
+
 int	check_valid_map(t_game *game)
 {
 	if (game->width + game->height < 9)
@@ -98,5 +124,7 @@ int	check_valid_map(t_game *game)
 1 ennemy and at least 1 item.\n");
 		return (1);
 	}
+	if (check_invalid_char(game) == 1)
+		return (1);
 	return (0);
 }

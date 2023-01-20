@@ -6,18 +6,18 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 18:07:47 by rrebois           #+#    #+#             */
-/*   Updated: 2023/01/18 12:29:33 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/01/20 10:07:49 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs_bonus/so_long_bonus.h"
 
-void	ft_free(char **s, t_game *game)
+void	ft_free_map(char **s, size_t a)
 {
 	size_t	i;
 
 	i = 0;
-	while (i < game->height)
+	while (i < a)
 	{
 		free(s[i]);
 		s[i] = NULL;
@@ -74,7 +74,7 @@ static char	**ft_copy(char **s, t_game *game)
 		j = 0;
 		s[i] = (char *)malloc(sizeof(char) * (game->width + 1));
 		if (s[i] == NULL)
-			return (NULL);
+			return (ft_free_map(s, i), NULL);
 		while (game->map[i][j] != '\0')
 		{
 			s[i][j] = game->map[i][j];
@@ -93,10 +93,10 @@ int	check_valid_path(t_game *game)
 
 	s = (char **)malloc(sizeof(*s) * (game->height + 1));
 	if (s == NULL)
-		return (exit(1), 1);
+		return (1);
 	s = ft_copy(s, game);
 	spread_al(s, game->p.x, game->p.y);
 	if (control_al(s, game) == 1)
-		return (ft_free(s, game), 1);
-	return (ft_free(s, game), 0);
+		return (ft_free_map(s, game->height), 1);
+	return (ft_free_map(s, game->height), 0);
 }

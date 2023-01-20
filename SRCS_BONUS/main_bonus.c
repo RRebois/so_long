@@ -6,7 +6,7 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 13:42:57 by rrebois           #+#    #+#             */
-/*   Updated: 2023/01/18 13:20:32 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/01/20 12:31:52 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,10 @@ int	main(int ac, char **av)
 	}
 	extract_map_size(av[1], &game);
 	if (check_valid_map(&game) == 1 || check_valid_path(&game) == 1)
+	{
+		close_game_free(&game);
 		return (1);
+	}
 	ft_display_map(&game);
 	return (0);
 }

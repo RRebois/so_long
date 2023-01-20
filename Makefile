@@ -1,8 +1,6 @@
 # VARIABLES
 NAME		=	so_long
 
-NAME_B		=	so_long_bonus
-
 CC			=	cc
 
 RM			=	rm -rf
@@ -17,7 +15,7 @@ LIBFT		=	libft.a
 
 MLX_LIB		=	libmlx.a
 
-MLX_LNK		=	-Lmlx -lmlx -framework OpenGL -framework AppKit
+MLX_LNK		=	-L mlx -lmlx -framework OpenGL -framework AppKit
 
 LEAKS		=	-fsanitize=address -g3
 
@@ -89,24 +87,22 @@ OBJS_BONUS	=	$(addprefix $(D_OBJS_BONUS), $(LST_OBJS_BONUS))
 
 LIBFTLIB	=	$(addprefix $(D_LIBFT), $(LIBFT))
 
-LMXLIB		=	$(addprefix $(D_MLX), $(MLX_LIB))
+MLXLIB		=	$(addprefix $(D_MLX), $(MLX_LIB))
 
 
 # RULES
-all		:	$(NAME)
+all		:	lib $(NAME)
 
-$(NAME):	$(OBJS) $(LIBFTLIB) $(LMXLIB)
-			$(CC) $(LEAKS) $(OBJS) $(LIBFTLIB) -lz $(MLX_LNK) -o $(NAME)
+lib :
+		$(MAKE) -C $(D_LIBFT)
+		$(MAKE) -C $(D_MLX)
 
-$(D_OBJS)%.o	:	$(D_SRCS)%.c $(INCS) Makefile
+$(NAME)	:	$(OBJS)
+			$(CC) $(LEAKS) $(OBJS) $(LIBFTLIB) $(MLX_LNK) -o $(NAME)
+
+$(D_OBJS)%.o	:	$(D_SRCS)%.c $(INCS) Makefile $(LIBFTLIB) $(MLXLIB)
 					mkdir -p $(D_OBJS)
-					$(CC) $(LEAKS) $(FLAGS) -I $(INCS) -c $< -o $@
-
-$(LIBFTLIB)		:
-					make -C $(D_LIBFT)
-
-$(LMXLIB)		:
-					make -C $(D_MLX)
+					$(CC) $(FLAGS) -I $(INCS) -c $< -o $@
 
 clean	:
 			$(RM) $(OBJS)
@@ -123,11 +119,11 @@ fclean	:
 
 re		:	fclean all
 
-bonus	:	$(OBJS_BONUS) $(LIBFTLIB) $(LMXLIB)
-			$(CC) $(LEAKS) $(OBJS_BONUS) $(LIBFTLIB) -lz $(MLX_LNK) -o $(NAME_B)
+bonus	:	$(OBJS_BONUS) lib
+			$(CC) $(LEAKS) $(OBJS_BONUS) $(LIBFTLIB) $(MLX_LNK) -o $(NAME)
 
-$(D_OBJS_BONUS)%.o	:	$(D_SRCS_BONUS)%.c $(INCS_B) Makefile
+$(D_OBJS_BONUS)%.o	:	$(D_SRCS_BONUS)%.c $(INCS_B) Makefile $(LIBFTLIB) $(MLXLIB)
 						mkdir -p $(D_OBJS_BONUS)
-						$(CC) $(LEAKS) $(FLAGS) -I $(INCS_B) -c $< -o $@
+						$(CC) $(FLAGS) -I $(INCS_B) -c $< -o $@
 
-.PHONY	:	all clean fclean re
+.PHONY	:	all clean fclean re lib bonus

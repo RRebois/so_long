@@ -6,7 +6,7 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 15:27:43 by rrebois           #+#    #+#             */
-/*   Updated: 2023/01/18 12:00:16 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/01/20 15:32:58 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int		close_game(t_var *v);
 int		main(int ac, char **av);
 int		check_valid_map(t_game *game);
 int		check_valid_path(t_game *game);
+int		check_invalid_char(t_game *game);
 void	hooks(t_var *v);
 void	key_up(t_var *v);
 void	key_left(t_var *v);
@@ -94,7 +95,7 @@ void	add_exit_player(t_var *v);
 void	check_door_open(t_var *v);
 void	ft_display_map(t_game *game);
 void	create_image_map(t_var *var);
-void	ft_free(char **s, t_game *game);
+void	ft_free_map(char **s, size_t a);
 void	extract_exit_position(t_game *game);
 void	extract_player_position(t_game *game);
 void	add_wall(t_var *v, size_t i, size_t j);
@@ -102,5 +103,6 @@ void	add_items(t_var *v, size_t i, size_t j);
 void	add_ground(t_var *v, size_t i, size_t j);
 void	extract_map_size(char *map, t_game *game);
 void	extract_map_lines(char	*map, t_game *game);
+void	close_game_free(t_game *game);
 
 #endif
